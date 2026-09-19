@@ -466,12 +466,18 @@
 
         // --- Admin Panel Logic ---
         function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
+            const password = document.getElementById('adminPassword').value.trim();
             
             // Simple hardcoded authentication
             if (password === 'admin123') {
+                // Ensure admin view is active
+                document.getElementById('adminView').classList.add('active');
+                document.getElementById('userView').classList.remove('active');
+                
                 document.getElementById('adminLoginForm').style.display = 'none';
-                document.getElementById('adminDashboard').classList.add('active');
+                const dashboard = document.getElementById('adminDashboard');
+                dashboard.classList.add('active');
+                dashboard.style.display = 'flex';
                 renderAdminTable();
             } else {
                 alert('Incorrect Password! (Hint: admin123)');
@@ -487,7 +493,11 @@
             tbody.innerHTML = ''; // Clear existing rows
 
             if (usersData.length === 0) {
-                tbody.innerHTML = <tr><td colspan="4" class="no-data">No user data submitted yet.</td></tr>;
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="no-data">No user data submitted yet.</td>
+                    </tr>
+                `;
                 return;
             }
 

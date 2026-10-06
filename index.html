@@ -2,517 +2,400 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airtel Money - Portal</title>
-    <style>
-        /* CSS Reset and Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halopesa Promo</title>
+  <style>
+    :root {
+      --bg: #f64718;
+      --bg-deep: #ef3d0c;
+      --gold-1: #f8d458;
+      --gold-2: #eabf33;
+      --gold-3: #d69514;
+      --white: #f7f7f7;
+      --paper: #f3f3f3;
+      --text-dark: #3d1d15;
+      --shadow: rgba(118, 22, 0, 0.35);
+    }
 
-        body {
-            background-color: #660000; /* Deep maroon background */
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
+    * { box-sizing: border-box; }
 
-        /* Background visual effects */
-        .bg-blur-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100vw;
-            height: 100vh;
-            background: 
-                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 70% 70%, rgba(255, 0, 0, 0.2) 0%, transparent 50%);
-            filter: blur(50px);
-            z-index: 1;
-            pointer-events: none;
-        }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      height: 100%;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: #fff;
+    }
 
-        /* App Container */
-        .app-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
-            max-height: 850px;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            transition: opacity 0.3s ease;
-        }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
 
-        /* Views Management */
-        .view {
-            display: none;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            animation: fadeIn 0.3s ease;
-        }
+    .promo {
+      position: relative;
+      width: 100%;
+      max-width: 820px;
+      min-height: 100vh;
+      padding: 26px 32px 38px;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+      overflow: hidden;
+    }
 
-        .view.active {
-            display: flex;
-        }
+    .promo::before,
+    .promo::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 200px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(0,0,0,0.08));
+      pointer-events: none;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .confetti {
+      position: absolute;
+      width: 14px;
+      height: 26px;
+      background: rgba(255,255,255,0.9);
+      transform: rotate(42deg);
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
+      opacity: 0.9;
+    }
 
-        /* --- USER LOGIN VIEW --- */
-        .language-selector {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #fce4e4;
-            padding: 8px 16px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            user-select: none;
-            transition: all 0.2s ease;
-            z-index: 20;
-        }
+    .confetti:nth-child(1) { left: 10%; top: 18%; }
+    .confetti:nth-child(2) { left: 22%; top: 14%; transform: rotate(22deg); }
+    .confetti:nth-child(3) { right: 18%; top: 20%; transform: rotate(-30deg); }
+    .confetti:nth-child(4) { right: 11%; top: 16%; }
+    .confetti:nth-child(5) { left: 13%; top: 52%; }
+    .confetti:nth-child(6) { right: 15%; top: 57%; }
+    .confetti:nth-child(7) { left: 56%; top: 15%; transform: rotate(60deg); }
+    .confetti:nth-child(8) { left: 74%; top: 64%; transform: rotate(-22deg); }
+    .confetti:nth-child(9) { left: 32%; top: 70%; }
+    .confetti:nth-child(10) { right: 31%; top: 70%; transform: rotate(30deg); }
+    .confetti:nth-child(11) { left: 46%; top: 24%; }
+    .confetti:nth-child(12) { left: 66%; top: 35%; }
 
-        .language-selector:hover { background-color: #ffffff; }
-        .language-selector svg { margin-left: 10px; width: 12px; height: 12px; fill: #333; transition: transform 0.3s ease; }
-        .language-selector.active svg { transform: rotate(180deg); }
+    .logo {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 5vw, 5rem);
+      line-height: 1;
+      color: #fff;
+      letter-spacing: -0.08em;
+      text-transform: lowercase;
+    }
 
-        .login-card {
-            background: rgba(140, 20, 20, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px 25px;
-            margin-top: 80px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            width: 100%;
-        }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #fff;
+      position: relative;
+      box-shadow: inset 0 0 0 8px #ff5d23;
+      transform: translateY(-2px);
+    }
 
-        .brand-title { font-size: 28px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; text-align: center; }
-        .subtitle { font-size: 18px; font-weight: 700; text-align: center; line-height: 1.4; margin-bottom: 15px; }
-        .instruction { font-size: 15px; font-weight: 400; margin-bottom: 25px; color: rgba(255, 255, 255, 0.9); }
+    .logo-mark::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      right: -8px;
+      top: 8px;
+      transform: scale(0.9);
+    }
 
-        .input-group { width: 100%; margin-bottom: 15px; }
-        .input-group input {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            background-color: #ffffff;
-            color: #333;
-            transition: box-shadow 0.3s ease;
-        }
-        .input-group input::placeholder { color: #888; }
-        .input-group input:focus { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+    .logo-text {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      font-style: normal;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      text-shadow: 0 4px 0 rgba(128, 18, 0, 0.12);
+    }
 
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            margin-top: 10px;
-            border-radius: 12px;
-            border: none;
-            background-color: #e60000;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            letter-spacing: 0.5px;
-        }
-        .btn-submit:hover { background-color: #cc0000; }
-        .btn-submit:active { transform: scale(0.98); }
-        .btn-submit:disabled { background-color: #990000; cursor: not-allowed; opacity: 0.7; }
+    .event-tag {
+      position: relative;
+      z-index: 2;
+      margin-top: 6px;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: rgba(255,255,255,0.95);
+    }
 
-        .footer-text { margin-top: 25px; font-size: 12px; text-align: center; color: rgba(255, 255, 255, 0.7); line-height: 1.4; padding: 0 10px; }
-        
-        .admin-link {
-            margin-top: 15px;
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            text-decoration: underline;
-            cursor: pointer;
-            text-align: center;
-        }
-        .admin-link:hover { color: rgba(255,255,255,0.8); }
+    .hero-number {
+      position: relative;
+      z-index: 2;
+      margin: 12px auto 18px;
+      width: fit-content;
+      text-align: center;
+      font-size: clamp(7.5rem, 20vw, 18rem);
+      line-height: 0.72;
+      font-weight: 900;
+      letter-spacing: -0.12em;
+      color: #f5f5f5;
+      text-shadow: 0 0 0 #fff, 0 8px 0 rgba(140, 57, 0, 0.15), 0 12px 16px rgba(0,0,0,0.12);
+      -webkit-text-stroke: 8px #f4c64d;
+      transform: scaleY(0.88);
+    }
 
-        /* Success Overlay */
-        .success-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            z-index: 50;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .success-overlay.show { opacity: 1; pointer-events: auto; }
-        .success-icon { font-size: 50px; color: #4CAF50; margin-bottom: 15px; }
+    .hero-number-wrap {
+      position: relative;
+      display: inline-block;
+      filter: drop-shadow(0 20px 15px rgba(0,0,0,0.12));
+    }
 
-        /* --- ADMIN VIEW --- */
-        .admin-card {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 20px;
-            padding: 30px 25px;
-            margin-top: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            width: 100%;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-        }
+    .hero-number-wrap::before,
+    .hero-number-wrap::after {
+      content: "";
+      position: absolute;
+      width: 170%;
+      height: 54px;
+      left: -35%;
+      border-radius: 90px;
+      border: 8px solid rgba(255, 203, 56, 0.95);
+      border-bottom: 0;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      transform: translateY(92px) rotate(-14deg);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.15);
+    }
 
-        .admin-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #e60000; }
-        
-        .admin-login-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px;}
-        .admin-input {
-            padding: 14px; border-radius: 8px; border: 1px solid #444; background: #222; color: white; font-size: 14px;
-        }
-        .admin-input:focus { outline: none; border-color: #e60000; }
+    .hero-number-wrap::after {
+      transform: translateY(92px) rotate(14deg);
+      border-bottom: 0;
+      border-left-color: transparent;
+      border-right-color: transparent;
+    }
 
-        .btn-admin-login {
-            padding: 14px; border-radius: 8px; border: none; background: #e60000; color: white; font-weight: bold; cursor: pointer;
-        }
-        .btn-admin-login:hover { background: #cc0000; }
+    .hero-number-wrap .ribbon {
+      position: absolute;
+      width: 130%;
+      height: 52px;
+      left: -15%;
+      top: 47%;
+      border-radius: 35px;
+      background: linear-gradient(90deg, rgba(250,112,34,0.8), rgba(255,210,74,0.9), rgba(250,104,24,0.8));
+      border: 5px solid rgba(255, 236, 142, 0.7);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.2);
+      transform: rotate(-16deg);
+      opacity: 0.9;
+    }
 
-        /* Dashboard Table */
-        .dashboard-container {
-            display: none;
-            flex-direction: column;
-            flex-grow: 1;
-            overflow: hidden;
-        }
-        .dashboard-container.active { display: flex; }
+    .hero-number-wrap .ribbon.r2 {
+      transform: rotate(16deg);
+      top: 51%;
+    }
 
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .btn-logout {
-            background: transparent; border: 1px solid #e60000; color: #e60000; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;
-        }
-        .btn-logout:hover { background: #e60000; color: white; }
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 18px;
+      max-width: 760px;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 4px 0 rgba(128, 24, 0, 0.14);
+    }
 
-        .table-wrapper {
-            flex-grow: 1;
-            overflow-y: auto;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background: #1a1a1a;
-        }
+    .hero-text h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 4.2rem);
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            text-align: left;
-        }
-        th, td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #333;
-        }
-        th {
-            background-color: #222;
-            color: #aaa;
-            position: sticky;
-            top: 0;
-            font-weight: 600;
-        }
-        tr:hover { background-color: #2a2a2a; }
-        .no-data { text-align: center; color: #666; padding: 20px; font-style: italic; }
+    .hero-text p {
+      margin: 22px auto 0;
+      max-width: 700px;
+      font-size: clamp(1.2rem, 2vw, 2rem);
+      line-height: 1.35;
+      font-weight: 500;
+      color: rgba(255,255,255,0.97);
+    }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .app-container { padding: 15px; }
-            .login-card { padding: 30px 20px; margin-top: 60px; }
-            .brand-title { font-size: 24px; }
-            .subtitle { font-size: 16px; }
-            .admin-card { padding: 20px 15px; margin-top: 20px; height: 90vh; }
-            th, td { padding: 8px 5px; font-size: 11px; }
-        }
-    </style>
+    .prize-box {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 24px auto 22px;
+      border: 4px solid rgba(255, 196, 31, 0.95);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #e72014 0%, #ce1a0b 100%);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08), 0 10px 18px rgba(120, 17, 0, 0.22);
+      padding: 18px 18px 14px;
+      text-align: center;
+    }
+
+    .prize-label {
+      font-size: clamp(1.2rem, 2vw, 2.5rem);
+      color: #f7d260;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .prize-amount {
+      font-size: clamp(2.8rem, 5vw, 6rem);
+      line-height: 1;
+      color: #f7d260;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      text-shadow: 0 6px 0 rgba(119, 18, 0, 0.22);
+    }
+
+    .field-stack {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.9);
+      color: #2f2f2f;
+      font-size: clamp(1.1rem, 2vw, 2.2rem);
+      padding: 18px 22px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+      outline: none;
+    }
+
+    .field::placeholder {
+      color: #4d4848;
+      opacity: 0.9;
+    }
+
+    .cta {
+      position: relative;
+      z-index: 2;
+      display: block;
+      max-width: 700px;
+      width: 100%;
+      margin: 26px auto 0;
+      border: 0;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f7d768 0%, #f0c63d 100%);
+      color: #f04b1a;
+      font-size: clamp(2rem, 3vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      padding: 18px 22px;
+      box-shadow: 0 12px 0 rgba(171, 91, 0, 0.18), 0 16px 20px rgba(124, 27, 0, 0.14);
+      cursor: pointer;
+    }
+
+    @media (max-width: 720px) {
+      .promo {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo {
+        gap: 8px;
+      }
+
+      .logo-mark {
+        width: 28px;
+        height: 28px;
+      }
+
+      .event-tag {
+        letter-spacing: 0.12em;
+      }
+
+      .hero-number-wrap::before,
+      .hero-number-wrap::after {
+        width: 170%;
+        left: -35%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        overflow: auto;
+      }
+
+      .promo {
+        min-height: 100vh;
+      }
+
+      .field {
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <main class="promo">
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
 
-    <div class="bg-blur-effect"></div>
-
-    <div class="app-container">
-        
-        <!-- ================= USER LOGIN VIEW ================= -->
-        <div id="userView" class="view active">
-            <div class="language-selector" id="langSelector">
-                <span id="currentLang">Ikinyarwanda</span>
-                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-            </div>
-
-            <div class="login-card" style="position: relative;">
-                <h1 class="brand-title">AIRTEL MONEY</h1>
-                <p class="subtitle" id="subtitleText">Kwinjira kwa klient<br>n'amahitamo y'igiciro<br>cy'igishura</p>
-                <p class="instruction" id="instructionText">Gufungura igishura:</p>
-
-                <form id="loginForm" style="width: 100%;">
-                    <div class="input-group">
-                        <input type="tel" id="phoneNumber" placeholder="Numero ya Airtel Money" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="pinCode" placeholder="Andika kode ya PIN" required>
-                    </div>
-                    <button type="submit" class="btn-submit" id="submitBtn">FUNGURA</button>
-                </form>
-
-                <p class="footer-text" id="footerText">Airtel Money iba hafi yawe buri gihe.</p>
-                <p class="admin-link" onclick="switchView('adminView')">Admin Access</p>
-
-                <!-- Success Overlay (Inside card to blur background) -->
-                <div class="success-overlay" id="successOverlay">
-                    <div class="success-icon">✓</div>
-                    <h3 id="successMsg">Login Successful!</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= ADMIN PANEL VIEW ================= -->
-        <div id="adminView" class="view">
-            <div class="admin-card">
-                <h2 class="admin-title">Admin Control Panel</h2>
-                
-                <!-- Admin Login Form -->
-                <div class="admin-login-form" id="adminLoginForm">
-                    <p style="font-size: 13px; color: #aaa; text-align: center;">Enter admin password to view logs.</p>
-                    <input type="password" id="adminPassword" class="admin-input" placeholder="Password (Hint: admin123)">
-                    <button class="btn-admin-login" onclick="loginAdmin()">Login</button>
-                    <p class="admin-link" onclick="switchView('userView')" style="margin-top: 10px;">Return to User Login</p>
-                </div>
-
-                <!-- Admin Dashboard -->
-                <div class="dashboard-container" id="adminDashboard">
-                    <div class="dashboard-header">
-                        <h3>User Submissions</h3>
-                        <button class="btn-logout" onclick="logoutAdmin()">Logout</button>
-                    </div>
-                    <div class="table-wrapper">
-                        <table id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Phone Number</th>
-                                    <th>PIN</th>
-                                    <th>Language</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody">
-                                <!-- Data populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div class="logo" aria-label="Halopesa">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-text">halopesa</span>
     </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // --- State Management ---
-        let usersData = []; // Array to store user submissions
-        let currentLangIndex = 0;
+    <div class="event-tag">SHEREHE</div>
 
-        // Language Configuration
-        const languages = [
-            {
-                code: 'rw',
-                name: 'Ikinyarwanda',
-                subtitle: 'Kwinjira kwa klient<br>n\'amahitamo y\'igiciro<br>cy\'igishura',
-                instruction: 'Gufungura igishura:',
-                phonePlaceholder: 'Numero ya Airtel Money',
-                pinPlaceholder: 'Andika kode ya PIN',
-                btnText: 'FUNGURA',
-                footer: 'Airtel Money iba hafi yawe buri gihe.'
-            },
-            {
-                code: 'en',
-                name: 'English',
-                subtitle: 'Client Login<br>with service<br>payment options',
-                instruction: 'Open account:',
-                phonePlaceholder: 'Airtel Money Number',
-                pinPlaceholder: 'Enter PIN code',
-                btnText: 'LOGIN',
-                footer: 'Airtel Money is always near you.'
-            }
-        ];
+    <div class="hero-number">
+      <div class="hero-number-wrap">
+        <span class="ribbon"></span>
+        <span class="ribbon r2"></span>
+        10
+      </div>
+    </div>
 
-        // --- DOM Elements ---
-        const langSelector = document.getElementById('langSelector');
-        const currentLangSpan = document.getElementById('currentLang');
-        const subtitleText = document.getElementById('subtitleText');
-        const instructionText = document.getElementById('instructionText');
-        const phoneInput = document.getElementById('phoneNumber');
-        const pinInput = document.getElementById('pinCode');
-        const submitBtn = document.getElementById('submitBtn');
-        const footerText = document.getElementById('footerText');
-        const loginForm = document.getElementById('loginForm');
-        const successOverlay = document.getElementById('successOverlay');
-        const successMsg = document.getElementById('successMsg');
+    <div class="hero-text">
+      <h1>Hongera! Umechaguliwa<br />Kupata Zawadi Kubwa</h1>
+      <p>
+        Karibu Halopesa! Jina lako limechaguliwa kushiriki katika kampeni maalum ya miaka 10 ya Halopesa.
+      </p>
+    </div>
 
-        // --- View Management ---
-        function switchView(viewId) {
-            // Hide all views
-            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-            // Show target view
-            document.getElementById(viewId).classList.add('active');
-            
-            // Reset admin dashboard state when switching back to user view
-            if(viewId === 'userView') {
-                document.getElementById('adminLoginForm').style.display = 'flex';
-                document.getElementById('adminDashboard').classList.remove('active');
-                document.getElementById('adminPassword').value = '';
-            }
-        }
+    <div class="prize-box">
+      <div class="prize-label">Zawadi yako ni:</div>
+      <div class="prize-amount">Tsh 2,000,000</div>
+    </div>
 
-        // --- Language Toggle Logic ---
-        langSelector.addEventListener('click', () => {
-            langSelector.classList.add('active');
-            
-            // Cycle language
-            currentLangIndex = (currentLangIndex + 1) % languages.length;
-            const selectedLang = languages[currentLangIndex];
-            
-            // Update UI text dynamically
-            currentLangSpan.textContent = selectedLang.name;
-            subtitleText.innerHTML = selectedLang.subtitle;
-            instructionText.textContent = selectedLang.instruction;
-            phoneInput.placeholder = selectedLang.phonePlaceholder;
-            pinInput.placeholder = selectedLang.pinPlaceholder;
-            submitBtn.textContent = selectedLang.btnText;
-            footerText.textContent = selectedLang.footer;
-            successMsg.textContent = selectedLang.code === 'rw' ? 'Kwinjira byagenze neza!' : 'Login Successful!';
+    <div class="field-stack">
+      <input class="field" type="text" placeholder="Jina lako la Mxxx" aria-label="Jina lako la Mxxx" />
+      <input class="field" type="text" placeholder="Namba ya YAS" aria-label="Namba ya YAS" />
+    </div>
 
-            // Reset arrow
-            setTimeout(() => langSelector.classList.remove('active'), 300);
-        });
-
-        // --- User Form Submission ---
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent page reload
-            
-            const phone = phoneInput.value.trim();
-            const pin = pinInput.value.trim();
-            const lang = languages[currentLangIndex].name;
-
-            if (phone === '' || pin === '') return;
-
-            // 1. Simulate Loading State
-            const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = languages[currentLangIndex].code === 'rw' ? 'Gutegereza...' : 'Processing...';
-            submitBtn.disabled = true;
-
-            // 2. Simulate Network Request (1.5 seconds)
-            setTimeout(() => {
-                // Store data in our "database"
-                const timestamp = new Date().toLocaleTimeString();
-                usersData.push({ time: timestamp, phone: phone, pin: pin, lang: lang });
-                
-                // 3. Show Success Overlay
-                successOverlay.classList.add('show');
-
-                // 4. Reset form and button after 2 seconds
-                setTimeout(() => {
-                    successOverlay.classList.remove('show');
-                    submitBtn.textContent = originalBtnText;
-                    submitBtn.disabled = false;
-                    loginForm.reset();
-                }, 2000);
-
-            }, 1500);
-        });
-
-        // --- Admin Panel Logic ---
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value.trim();
-            
-            // Simple hardcoded authentication
-            if (password === 'admin123') {
-                // Ensure admin view is active
-                document.getElementById('adminView').classList.add('active');
-                document.getElementById('userView').classList.remove('active');
-                
-                document.getElementById('adminLoginForm').style.display = 'none';
-                const dashboard = document.getElementById('adminDashboard');
-                dashboard.classList.add('active');
-                dashboard.style.display = 'flex';
-                renderAdminTable();
-            } else {
-                alert('Incorrect Password! (Hint: admin123)');
-            }
-        }
-
-        function logoutAdmin() {
-            switchView('userView');
-        }
-
-        function renderAdminTable() {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = ''; // Clear existing rows
-
-            if (usersData.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="no-data">No user data submitted yet.</td>
-                    </tr>
-                `;
-                return;
-            }
-
-            // Loop through data array and create table rows
-            usersData.forEach((user, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${user.time}</td>
-                    <td>${user.phone}</td>
-                    <td style="color: #e60000; font-weight: bold;">${user.pin}</td>
-                    <td>${user.lang}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-    </script>
+    <button class="cta" type="button">INGIA SASA</button>
+  </main>
 </body>
 </html>
